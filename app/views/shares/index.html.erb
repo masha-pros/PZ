@@ -1,0 +1,40 @@
+<% if current_user.role == "broker" || current_user.role == "buyer" %>
+  <h1>Список акций</h1>
+  <ul>
+    <% @shares.each do |share| %>
+      <li>
+        name: <%= share.name %> <br>
+        cost: <%= share.cost %><br>
+        <% if current_user.role == "buyer" %>
+          <%= form_with url: messages_path do |form| %>
+            <%= form.hidden_field :share_id, value: share.id %>
+             <%= form.number_field :quantity, min: 1, max: 100, value: 1 %>
+            <%= form.submit 'Купить' %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <p>Текущий пользователь: <%= current_user.first_name %></p>
+  <p>Роль: <%= current_user.role %></p>
+
+  <% if current_user.role == "broker" %>
+    <h2>Добавление новой акции</h2>
+    <%= form_with model: @share, url: shares_path do |form| %>
+      <div>
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+      </div>
+      <div>
+        <%= form.label :cost %>
+        <%= form.text_field :cost %>
+      </div>
+      <div>
+        <%= form.submit 'Создать' %>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <h1>Список акций доступен только пользователям с ролью broker или buyer</h1>
+<% end %>
