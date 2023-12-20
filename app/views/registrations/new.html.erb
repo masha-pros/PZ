@@ -16,7 +16,7 @@
     <br>
 	  <div class="form-row">
     <%= f.label :role %>
-    <%= f.text_field :role %>
+    <%= f.select :role, options_for_select(['buyer', 'broker']) %>
   </div>
     <br>
   <div class="form-row">

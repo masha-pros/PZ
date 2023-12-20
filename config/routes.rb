@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'messages/create'
   # Другие маршруты
   get "/about", to: "pages#about", as: :about
   get "/contact", to: "pages#contact", as: :contact
@@ -26,5 +25,13 @@ Rails.application.routes.draw do
   resources :products
 
   # Маршруты для акций
-  resources :shares, only: [:index, :new, :create]
+  resources :shares do
+    member do
+      put 'buy'  # Заменяем put на post
+      put 'sell'
+    end
+  end
+
+  # Ваш новый маршрут
+  post 'shares/:id/buy', to: 'shares#buy', as: 'buy_share_post'  # Добавляем новый маршрут для обработки POST-запросов на покупку акций
 end
