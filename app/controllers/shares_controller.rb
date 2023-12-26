@@ -37,7 +37,7 @@ class SharesController < ApplicationController
 
   def buy
     @share = Share.find(params[:id])
-    @share.owner = current_user.first_name
+    @share.owner = current_user.id
     @share.save
     redirect_to shares_path, notice: 'Акция успешно куплена.'
   end
